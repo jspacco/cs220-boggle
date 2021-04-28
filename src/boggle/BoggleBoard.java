@@ -124,7 +124,7 @@ public class BoggleBoard extends JFrame
     
     public BoggleBoard() {
         random = new Random(299);
-        setTitle("Draw Shapes!");
+        setTitle("Boggle");
         
         JFrame frame = this;
         

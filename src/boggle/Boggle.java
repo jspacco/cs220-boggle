@@ -6,13 +6,11 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class Boggle
 {
     private String[][] board = new String[4][4];
     private Die[] dice;
-    private Set<String> dictionary = new TreeSet<String>();
     private Trie trie;
     
     /**
@@ -24,6 +22,7 @@ public class Boggle
      */
     public String get(int row, int col) {
         if (row<0 || col<0 || row>=board.length || col>=board.length) {
+        	// should we throw an exception instead?
             return null;
         }
         return board[row][col];
@@ -48,7 +47,6 @@ public class Boggle
             if (s.length()<3) {
                 continue;
             }
-            dictionary.add(s);
             trie.insert(s.toUpperCase());
         }
         scan.close();
@@ -168,7 +166,7 @@ public class Boggle
         for (int i=0; i<dice.length; i++) {
             int row=i/board.length;
             int col=i%board.length;
-            board[row][col]=dice[i].roll(r);
+            board[row][col] = dice[i].roll(r);
         }
     }
     
