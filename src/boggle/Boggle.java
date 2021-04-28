@@ -13,7 +13,6 @@ public class Boggle
     private String[][] board = new String[4][4];
     private Die[] dice;
     private Set<String> dictionary = new TreeSet<String>();
-    private String[] wordList;
     private Trie trie;
     
     /**
@@ -53,12 +52,6 @@ public class Boggle
             trie.insert(s.toUpperCase());
         }
         scan.close();
-        wordList=new String[dictionary.size()];
-        int i=0;
-        for (String s : dictionary) {
-            wordList[i]=s;
-            i++;
-        }
     }
     
     /**
@@ -133,7 +126,7 @@ public class Boggle
         return result;
     }
     
-    public void findHelper(int row, int col, Set<String> visited, String prefix, Set<String> result)
+    private void findHelper(int row, int col, Set<String> visited, String prefix, Set<String> result)
     {
         if (visited.contains(row+"-"+col)){
             return;
@@ -160,28 +153,6 @@ public class Boggle
             }
         }
     }
-    
-    
-//    /**
-//     * Return true if the loaded dictionary contains at least one word starting with the
-//     * given prefix; return false otherwise.
-//     * 
-//     * This method should be used by findValidWords.
-//     * 
-//     * This method determines when you can safely stop searching for words.
-//     * If there's no word that starts with XYZ in the dictionary, then there
-//     * sure as heck won't be a word that starts with XYZA.
-//     * 
-//     * Hint1:   You may wan to write a helper method.
-//     * Hint2:   Binary search or Trie for fast prefix checking
-//     * 
-//     * @param prefix A collection of letters that may be a prefix of a word in our dictionary.
-//     * @return
-//     */
-//    private boolean hasPrefix(String prefix) {
-//        // TODO: either binary search or a Trie
-//        return false;
-//    }
     
     /**
      * Shuffle the dice, assign them to a spot on the board, and roll them.  Use
