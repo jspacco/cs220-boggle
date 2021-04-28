@@ -3,6 +3,15 @@ package boggle;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 
+ * Practice building this Trie here:
+ * 
+ * https://leetcode.com/problems/implement-trie-prefix-tree/
+ * 
+ * @author jspacco
+ *
+ */
 class Trie {
     private boolean isValid;
     private Map<Character, Trie> kids;
