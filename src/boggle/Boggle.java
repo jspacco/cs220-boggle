@@ -12,6 +12,7 @@ public class Boggle
     private String[][] board = new String[4][4];
     private Die[] dice;
     private Trie trie;
+    private Random random;
     
     /**
      * Get the letter (or letters in the case of Qu) located at the given
@@ -29,7 +30,7 @@ public class Boggle
     }
     
     public void set(int row, int col, String s) {
-        board[row][col]=s;
+        board[row][col] = s;
     }
     
     /**
@@ -40,10 +41,10 @@ public class Boggle
     void loadWords(String filename)
     throws IOException
     {
-        Scanner scan=new Scanner(new FileInputStream(filename));
+        Scanner scan = new Scanner(new FileInputStream(filename));
         trie = new Trie();
         while (scan.hasNext()) {
-            String s=scan.next().toLowerCase().trim();
+            String s = scan.next().toLowerCase().trim();
             if (s.length()<3) {
                 continue;
             }
@@ -59,9 +60,10 @@ public class Boggle
      * @param filename The name of the file containing the legal dictionary words.
      * @throws IOException
      */
-    public Boggle(String filename)
+    public Boggle(String filename, Random random)
     throws IOException
     {
+    	this.random = random;
         // Create the dice
         dice=new Die[] {
                 new Die("J", "B", "O", "A", "B", "O"),
@@ -83,16 +85,19 @@ public class Boggle
         };
         // load the words
         loadWords(filename);
+        
+        // configure the board for a new game
+        configureBoard();
     }
     
     /**
      * Shuffle the dice using the given random number generator.
      * @param r A Random number generator.
      */
-    private void shuffleDice(Random r) {
+    private void shuffleDice() {
         // Probably not the best shuffle algorithm, but hopefully good enough
         for (int i=0; i<dice.length; i++) {
-            int index=r.nextInt(16);
+            int index=random.nextInt(16);
             Die temp=dice[i];
             dice[i]=dice[index];
             dice[index]=temp;
@@ -160,13 +165,13 @@ public class Boggle
      * 
      * @param r
      */
-    public void configureBoard(Random r) {
+    public void configureBoard() {
         // Shuffle the dice
-        shuffleDice(r);
+        shuffleDice();
         for (int i=0; i<dice.length; i++) {
-            int row=i/board.length;
-            int col=i%board.length;
-            board[row][col] = dice[i].roll(r);
+            int row = i / board.length;
+            int col = i % board.length;
+            board[row][col] = dice[i].roll(random);
         }
     }
     

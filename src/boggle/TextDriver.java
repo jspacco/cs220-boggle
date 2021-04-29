@@ -13,9 +13,8 @@ public class TextDriver
     public static void main(String[] args)
     throws IOException
     {
-        Boggle boggle = new Boggle("words.txt");
-        Random r = new Random(299);
-        boggle.configureBoard(r);
+    	Random r = new Random(299);
+        Boggle boggle = new Boggle("words.txt", r);
         System.out.println(boggle);
         // Find all the words that this boggle board can generate.
         Collection<String> words = boggle.findValidWords();

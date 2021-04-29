@@ -40,10 +40,6 @@ public class BoggleBoard extends JFrame
     private JPanel canvas;
     private JMenuBar menuBar;
     
-    
-    
-    
-	
 	private void drawGrid(Graphics2D g) {
 		g.setColor(Color.BLACK);
 		Font font = new Font("Verdana", Font.BOLD, 40);
@@ -76,16 +72,14 @@ public class BoggleBoard extends JFrame
     }
     
     private void createMenuBar() {
-    	// TODO create menu options
     	menuBar = new JMenuBar();
-        JMenu menu=new JMenu("Actions");
+        JMenu menu = new JMenu("Actions");
         menuBar.add(menu);
         
         addToMenu(menu, "New Game", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-                boggle.configureBoard(random);
+                boggle.configureBoard();
             }
         });
         
@@ -93,7 +87,7 @@ public class BoggleBoard extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) {
                 Collection<String> words=boggle.findValidWords();
-                StringBuilder buf=new StringBuilder();
+                StringBuilder buf = new StringBuilder();
                 for (String s : words) {
                     buf.append(s);
                     buf.append("\n");
@@ -159,7 +153,7 @@ public class BoggleBoard extends JFrame
 
 			@Override
         	public void paint(Graphics graphics) {
-        		Graphics2D g=(Graphics2D)graphics;
+        		Graphics2D g = (Graphics2D)graphics;
 
         		drawGrid(g);
 
@@ -185,12 +179,12 @@ public class BoggleBoard extends JFrame
         });
         
         try {
-            boggle = new Boggle("words.txt");
+            boggle = new Boggle("words.txt", random);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        boggle.configureBoard(random);
+        boggle.configureBoard();
         
         repaint();
     }
