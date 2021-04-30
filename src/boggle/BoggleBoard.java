@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Collection;
@@ -80,6 +82,7 @@ public class BoggleBoard extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) {
                 boggle.configureBoard();
+                repaint();
             }
         });
         
@@ -109,7 +112,12 @@ public class BoggleBoard extends JFrame
     }
     
     private void createKeyboardHandlers() {
-    	// TODO create keyboard handlers
+    	this.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				System.out.println(e.getKeyChar());
+			}
+		});
     }
     
     private void createMouseHandlers() {
@@ -118,8 +126,11 @@ public class BoggleBoard extends JFrame
     
     public BoggleBoard() {
         random = new Random(299);
-        setTitle("Boggle");
+        boggle = new Boggle("words.txt", random);
+        boggle.configureBoard();
         
+        setTitle("Boggle!");
+
         JFrame frame = this;
         
         canvas = new JPanel() {
@@ -167,6 +178,7 @@ public class BoggleBoard extends JFrame
         this.setResizable(false);
         this.pack();
         this.setLocation(100,100);
+        this.setFocusable(true);
         
         createMenuBar();
         createKeyboardHandlers();
@@ -177,14 +189,7 @@ public class BoggleBoard extends JFrame
                 System.exit(0);
             }
         });
-        
-        try {
-            boggle = new Boggle("words.txt", random);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
-        boggle.configureBoard();
         
         repaint();
     }

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Boggle
 {
@@ -61,7 +62,6 @@ public class Boggle
      * @throws IOException
      */
     public Boggle(String filename, Random random)
-    throws IOException
     {
     	this.random = random;
         // Create the dice
@@ -84,7 +84,12 @@ public class Boggle
                 new Die("D", "R", "X", "I", "L", "E")
         };
         // load the words
-        loadWords(filename);
+        try {
+        	loadWords(filename);
+        } catch (IOException e) {
+        	// no way to recover from this, so just repackage as runtime exception
+        	throw new RuntimeException(e);
+        }
         
         // configure the board for a new game
         configureBoard();
@@ -119,42 +124,54 @@ public class Boggle
      * passed to the constructor that can be created using the current
      * configuration of letters on the board. 
      */
-    public Collection<String> findValidWords() {
-        Set<String> result = new HashSet<String>();
-        for (int r=0; r<4; r++){
-            for (int c=0; c<4; c++){
-                findHelper(r, c, new HashSet<String>(), "", result);
-            }
+    public Collection<String> findValidWords()
+    {
+        Set<String> result = new TreeSet<>();
+        for (int r=0; r<4; r++) {
+        	for (int c=0; c<4; c++) {
+        		findHelper(r, c, new HashSet<String>(), "", result);
+        	}
         }
-        return result;
+    	
+    	return result;
+    }
+    
+    private String toCoord(int row, int col) {
+    	return "" + row + col;
     }
     
     private void findHelper(int row, int col, Set<String> visited, String prefix, Set<String> result)
     {
-        if (visited.contains(row+"-"+col)){
-            return;
-        }
-        if (!trie.startsWith(prefix)){
-            return;
+        if (visited.contains(toCoord(row, col))) {
+        	return;
         }
         
-        if (trie.contains(prefix)){
-            result.add(prefix);
+        if (!trie.startsWith(prefix)) {
+        	return;
         }
-        for (int r=row-1; r<=row+1; r++){
-            for (int c=col-1; c<=col+1; c++){
-                String letter = get(r,c);
-                if (letter==null){
-                    continue;
-                }
-                if (r==row && col==c){
-                    continue;
-                }
-                Set<String> visited2 = new HashSet<String>(visited);
-                visited2.add(row+"-"+col);
-                findHelper(r, c, visited2, prefix + letter, result);
-            }
+        
+        if (row < 0 || col < 0 || row > 3 || col > 3) {
+        	return;
         }
+        
+        visited.add(toCoord(row, col));
+    	
+    	// we found a word!
+        prefix += get(row, col);
+    	if (trie.contains(prefix)) {
+    		result.add(prefix);
+    	}
+    	
+    	// recursive steps!
+    	for (int r=row-1; r<=row+1; r++) {
+    		for (int c=col-1; c<=col+1; c++) {
+    			if (r == row && c == col) {
+    				continue;
+    			}
+    			// new HashSet<String>(visited): "copy constructor"
+    			findHelper(r, c, new HashSet<String>(visited), prefix, result);
+    		}
+    	}
     }
     
     /**
