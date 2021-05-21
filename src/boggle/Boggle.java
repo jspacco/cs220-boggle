@@ -30,16 +30,14 @@ public class Boggle
         return board[row][col];
     }
     
-    public void set(int row, int col, String s) {
-        board[row][col] = s;
-    }
+    
     
     /**
      * Load these words into a set.
      * @param filename Name of the file to read.
      * @throws IOException
      */
-    void loadWords(String filename)
+    private void loadWords(String filename)
     throws IOException
     {
         Scanner scan = new Scanner(new FileInputStream(filename));
