@@ -46,28 +46,17 @@ public class BoggleBoard extends JFrame
 		g.setColor(Color.BLACK);
 		Font font = new Font("Verdana", Font.BOLD, 40);
 		g.setFont(font);
+
         for (int r = 0; r < numRows; r++) {
             for (int c = 0; c < numCols; c++) {
+            	int x = c * squareSize + MARGIN_SIZE;
+            	int y = r * squareSize + MARGIN_SIZE;
+            	
                 g.drawString(boggle.get(r, c), 
-                		c * squareSize + MARGIN_SIZE + squareSize/3, 
-                		r * squareSize + MARGIN_SIZE + 2*squareSize/3);
+                		x + squareSize/3, 
+                		y + 2*squareSize/3);
 
-                g.drawLine(MARGIN_SIZE+c*squareSize,
-                        MARGIN_SIZE+r*squareSize,
-                        MARGIN_SIZE+(c+1)*squareSize,
-                        MARGIN_SIZE+r*squareSize);
-                g.drawLine(MARGIN_SIZE+c*squareSize, 
-                        MARGIN_SIZE+r*squareSize, 
-                        MARGIN_SIZE+c*squareSize, 
-                        MARGIN_SIZE+(r+1)*squareSize);
-                g.drawLine(MARGIN_SIZE+(c+1)*squareSize, 
-                        MARGIN_SIZE+r*squareSize, 
-                        MARGIN_SIZE+(c+1)*squareSize, 
-                        MARGIN_SIZE+(r+1)*squareSize);
-                g.drawLine(MARGIN_SIZE+c*squareSize, 
-                        MARGIN_SIZE+(r+1)*squareSize, 
-                        MARGIN_SIZE+(c+1)*squareSize, 
-                        MARGIN_SIZE+(r+1)*squareSize);
+                g.drawRect(x, y, squareSize, squareSize); 
             }
         }
         
