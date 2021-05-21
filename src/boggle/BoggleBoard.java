@@ -104,6 +104,11 @@ public class BoggleBoard extends JFrame
     	this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
+				// TODO: key machine where you keep sort of walking down the Trie
+				// if you hit a word, it highlights it
+				// if you hit enter after typing a word, it will add to your score
+				// can also do the breakdown of words of different lengths
+				// could also track things you type that aren't words
 				System.out.println(e.getKeyChar());
 			}
 		});
